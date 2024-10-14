@@ -6,8 +6,8 @@ import http from "node:http";
 import { json } from "./middlewares/json.js"; // middlewares é um intercerptador de requisao
 // import { route, route } from "./routes.js"; POR ALGUM MOTIVO IMPORTOU ERRADO
 import { routes } from "./routes.js";
+import { extractQueryParams } from "./ultis/extract-query-params.js";
 // import { Database } from "./database.js";
-
 
 // const users = []; JSON- js object notation
 
@@ -23,6 +23,13 @@ const server = http.createServer(async (req, res) => {
   });
 
   if (route) {
+    const routeParams = req.url.match(route.path);
+
+   // console.log(extractQueryParams(routeParams.groups.query))
+    
+   const {query, ...params} = routeParams.groups
+   req.params = params; //testar o url preview dps
+   req.query = query ? extractQueryParams(query): {}
     return route.handler(req, res);
   }
   return res.writeHead(404).end("not found");
@@ -31,10 +38,9 @@ const server = http.createServer(async (req, res) => {
 //stateful= smp guarda em memoria se derubar a api quebra
 //stateless- salva em memoria salva apesar de encerrer local
 
-server.listen(3333, () =>{
-console.log('server rodando ')
-}
-);
+server.listen(3333, () => {
+  console.log("server rodando ");
+});
 
 // curl http://localhost:3333/users =get
 // curl http://localhost:3333/users
