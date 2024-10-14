@@ -8,6 +8,7 @@ import { json } from "./middlewares/json.js"; // middlewares é um intercerptado
 import { routes } from "./routes.js";
 // import { Database } from "./database.js";
 
+
 // const users = []; JSON- js object notation
 
 // const database = new Database();
@@ -18,7 +19,7 @@ const server = http.createServer(async (req, res) => {
   await json(req, res); //intercerptador smp um req e res
 
   const route = routes.find((route) => {
-    return route.method === method && route.path === url;
+    return route.method === method && route.path.test(url);
   });
 
   if (route) {
@@ -30,7 +31,10 @@ const server = http.createServer(async (req, res) => {
 //stateful= smp guarda em memoria se derubar a api quebra
 //stateless- salva em memoria salva apesar de encerrer local
 
-server.listen(3333);
+server.listen(3333, () =>{
+console.log('server rodando ')
+}
+);
 
 // curl http://localhost:3333/users =get
 // curl http://localhost:3333/users

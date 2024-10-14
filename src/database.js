@@ -1,7 +1,7 @@
 // usando um {} posso salvar mais q apenas usuarios
 // import { json } from "./middlewares/json";
 import fs from "node:fs/promises";
-import { url } from "node:inspector";
+export { url } from "node:inspector";
 
 // console.log(import.meta.url)
 

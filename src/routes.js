@@ -1,14 +1,15 @@
 import { randomUUID } from "node:crypto";
 import { Database } from "./database.js";
-
+import path from "node:path";
+import { buildRoutePath } from "./ultis/build-route-path.js";
 
 const database = new Database();
 
 export const routes = [
   {
     method: "GET",
-    path: "/users",
-  handler: (req, res) => {
+    path: buildRoutePath("/users"),
+    handler: (req, res) => {
       const users = database.select("users");
 
       return res.end(JSON.stringify(users));
@@ -17,8 +18,8 @@ export const routes = [
 
   {
     method: "POST",
-    path: "/users",
-  handler: (req, res) => {
+    path: buildRoutePath("/users"),
+    handler: (req, res) => {
       const { name, email } = req.body;
       const user = {
         id: randomUUID(),
@@ -33,7 +34,7 @@ export const routes = [
   },
   {
     method: "DELETE",
-    path: "/users/:id",
+    path:buildRoutePath ("/users/:id"),
     handler: (req, res) => {
       return res.end();
     },
